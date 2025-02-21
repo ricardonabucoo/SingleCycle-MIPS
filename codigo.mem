@@ -1,0 +1,18 @@
+// fazendo varios testes por insegurança na instrução jump
+// Uma instrução por linha
+20080005  // addi $t0, $zero, 5    # t0 = 5
+20090003  // addi $t1, $zero, 3    # t1 = 3
+01095020  // add $t2, $t0, $t1     # t2 = t0 + t1 = 8
+ac0a0000  // sw $t2, 0($zero)      # Mem[0] = t2 (8)
+8c0b0000  // lw $t3, 0($zero)      # t3 = Mem[0] (8)
+012a6022  // sub $t4, $t1, $t2     # t4 = t1 - t2 = -5
+012a682a  // slt $t5, $t1, $t2     # t5 = (t1 < t2) = 1
+11090001  // beq $t0, $t1, 2       # Não pula (5 != 3)
+08000010  // j 16                   # Pula para instrução 16
+01285024  // and $t2, $t1, $t0     # Não deve executar
+00000000  // sera ignorada por causa do jump na linha 11
+00000000  // sera ignorada por causa do jump na linha 11
+00000000  // sera ignorada por causa do jump na linha 11
+00000000  // sera ignorada por causa do jump na linha 11
+01285025  // or $t2, $t1, $t0      # t2 = t1 OR t0
+00000000  // nop - fim 
